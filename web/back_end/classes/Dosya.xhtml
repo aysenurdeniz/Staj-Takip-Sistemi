@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>DOSYA</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="css" name="bootstrap.min.css"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body> 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="dosya-table">
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{DosyaCont.dosyaList}" var="dosya">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                    #{dosya.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dosya Adi</f:facet>
+                                <h:commandLink action="#{DosyaCont.guncelleForm(dosya)}" value="#{dosya.dosya_adi}">
+                                    <f:ajax execute="@this" render="dosya-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dosya Boyutu</f:facet>
+                                    #{dosya.dosya_boyutu}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dosya Tipi</f:facet>
+                                    #{dosya.dosya_tipi}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dosya Yolu</f:facet>
+                                    #{dosya.dosya_yolu}
+                            </h:column>
+                           
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form id="dosya-form">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <h:inputHidden value="#{DosyaCont.dosya.id}"/> 
+                                <label for="inputDosyaAdÄ±">Dosya Adi</label>
+                                <h:inputText styleClass="form-control" value="#{DosyaCont.dosya.dosya_adi}"/>
+                                <label for="inputDosyaBoyutu">Dosya Boyutu</label>
+                                <h:inputText styleClass="form-control" value="#{DosyaCont.dosya.dosya_boyutu}"/>
+                                <label for="inputDosyaTÄ±pÄ±">Dosya Tipi</label>
+                                <h:inputText styleClass="form-control" value="#{DosyaCont.dosya.dosya_tipi}"/>
+                                <label for="inputDosyaYolu">Dosya Yolu</label>
+                                <h:inputText styleClass="form-control" value="#{DosyaCont.dosya.dosya_yolu}"/>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <h:commandButton rendered="#{DosyaCont.dosya.id != 0}" styleClass="btn btn-info" value="Guncelle"  action="#{DosyaCont.guncelle()}">                       
+                                        <f:ajax execute="dosya-form" render="dosya-form dosya-table"/>
+                                    </h:commandButton>    
+                                    <h:commandButton rendered="#{DosyaCont.dosya.id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{DosyaCont.kaydet()}">
+                                        <f:ajax execute="dosya-form" render="dosya-form dosya-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{DosyaCont.dosya.id != 0}" styleClass="btn btn-primary" value="Sil" action="#{DosyaCont.silmeOnay(dosya)}">
+                                        <f:ajax execute="dosya-form" render="dosya-form dosya-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{DosyaCont.dosya.id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{DosyaCont.formTemizle()}">
+                                        <f:ajax execute="@this" render="dosya-form dosya-table"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/front_end/template/layout.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="icerik">
+        <div id="loginResim" style="background-image: url('resources/file/login.jpg');
+             background-repeat: no-repeat;
+             background-position: center;
+             background-size: cover;">
+            <br/><br/><br/>
+
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <div class="card rounded-0">
+                                    <div class="card-header">
+                                        <h3 class="mb-0">Üye Ol</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <h:form id="uye_form">
+                                            <h:messages styleClass="alert alert-danger alert" />
+
+                                            <div class="form-group">
+                                                <label >Kullanıcı Adı*</label>                                         
+                                                <h:inputText  class="form-control form-control-lg rounded-0" value="#{KullaniciCont.kullanici.kullanici_adi}" validator="#{validator.validateKullaniciAdi}"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label >Email*</label>                                         
+                                                <h:inputText  class="form-control form-control-lg rounded-0" value="#{KullaniciCont.kullanici.kullanici_mail}" validator="#{validator.validateEmail}"/>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Şifre*</label>
+                                                <h:inputSecret id="sifre" class="form-control form-control-lg rounded-0" value="#{KullaniciCont.kullanici.kullanici_sifresi}" validator="#{validator.validateBos}"  />                                              
+                                            </div>  
+
+                                            
+
+
+                                            <h:commandButton class="btn btn-success btn-lg float-right" action="#{KullaniciCont.kaydet()}"  value="Kayıt Ol" >
+                                                <f:ajax execute="uye_form" render="uye_form"/>
+                                            </h:commandButton>      
+
+                                        </h:form>
+                                    </div>                           
+                                </div>         
+                            </div>
+                        </div>         
+                    </div>              
+                </div>          
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

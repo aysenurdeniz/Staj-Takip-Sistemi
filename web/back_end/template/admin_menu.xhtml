@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <style type="text/css">
+        #mainNav,#form_admin,#siparisYonetim,#icerikMenu,#urunListesi,#kullaniciYonetim,#page-top{                 
+            background-color:#{GenelAyarlarController.genelayarlar.admin_Renk}!important;            
+        }
+
+    </style>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <a class="navbar-brand" href="#">Sipariş Yönetim Admin Panel</a>
+        <button id="btn_admin" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                <h:form id="form_admin" class="navbar-nav navbar-sidenav">
+
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Anasayfa">
+
+
+                        <h:commandLink styleClass="nav-link" action="/index?faces-redirect=true" >
+                            <i class="fa fa-fw fa-home"></i>
+                            <span class="nav-link-text">Anasayfa</span>
+                        </h:commandLink>
+                    </li>
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Admin Panel">
+                        <h:commandLink  styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('admin')}" >
+                            <i class="fa fa-fw fa-dashboard"></i>
+                            <span class="nav-link-text">Admin Panel</span>
+                        </h:commandLink>
+                    </li>
+
+                    <li  class="nav-item" data-toggle="tooltip" data-placement="right" title="Site İçerik Yönetim">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#icerikMenu" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-sitemap"></i>
+                            <span  class="nav-link-text">Site İçerik Yönetim</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="icerikMenu">
+
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('İçerik_Menü', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('icerik/menu')}" value="Menü Ekle" />                     
+                            </li>
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('İçerik_Ekle', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('icerik/icerik')}" value="İçerik Ekle" />
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Ürün">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#urunListesi" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-list-alt"></i>
+                            <span class="nav-link-text">Ürün</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="urunListesi">
+
+
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Ürün_Ekle', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('urun/urun')}" value="Ürün Ekle" />                     
+                            </li>
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Ürün_Grup', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('urun/urun_grup')}" value="Ürün Grup Kayıt" />
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mesaj">
+
+
+
+
+
+                        <h:commandLink rendered="#{loginController.yetkiKontrol('Mesaj', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('icerik/mesaj')}" >
+                            <i class="fa fa-fw fa-comment"></i>
+                            <span class="nav-link-text">Gelen Mesajlar</span>
+                        </h:commandLink>
+
+
+                    </li>
+
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sipariş Yönetimi">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#siparisYonetim" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-shopping-cart"></i>
+                            <span class="nav-link-text">Sipariş Yönetimi</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="siparisYonetim">
+
+
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Sipariş_Ekle', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('siparis/siparis')}" value="Sipariş İşlemleri" />                     
+                            </li>
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Sipariş_Durum', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('siparis/sdurum')}" value="Sipariş Durum Ekle" />
+                            </li>
+
+
+                        </ul>
+                    </li>
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Kullanıcı Yönetimi">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#kullaniciYonetim" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-users"></i>
+                            <span class="nav-link-text">Kullanıcı Yönetimi</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="kullaniciYonetim">
+
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Kullanıcı_Ekle', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('kullanici/kullanici')}" value="Kullanıcı İşlemleri" />                     
+                            </li>
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Kullanıcı_Yetki', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('kullanici/yetki')}" value="Yetki Grup Ekle" />
+                            </li>
+                            <li>
+                                <h:commandLink rendered="#{loginController.yetkiKontrol('Kullanıcı_Modül', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('kullanici/modul_yetki')}" value="Modül Yetkilendirme" />
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Genel Ayarlar">
+                        <h:commandLink rendered="#{loginController.yetkiKontrol('Genel_Ayar', 'Oku')}" styleClass="nav-link" action="#{sayfaYonlendir.adminPanel('icerik/genelayarlar')}" >
+                            <i class="fa fa-fw fa-cogs"></i>
+                            <span class="nav-link-text">Genel Ayarlar</span>
+                        </h:commandLink>
+                    </li>
+                </h:form>
+
+
+            </ul>
+            <ul class="navbar-nav sidenav-toggler">
+                <li class="nav-item">
+                    <a class="nav-link text-center" id="sidenavToggler">
+                        <i class="fa fa-fw fa-angle-left"></i>
+                    </a>
+                </li>
+            </ul>
+            <h:form class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-fw fa-cogs"></i>
+                            <span class="d-lg-none">Ayarlar
+
+                            </span>
+
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+                            <h6 class="dropdown-header">Ayarlar</h6>
+                            <div class="dropdown-divider"></div>
+
+                            <strong><h:commandLink value="Profil Güncelle"  styleClass="dropdown-item" action="#{KullaniciCont.profilGoster(sessionScope['kullaniciS'])}" /></strong>    
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <h:commandLink styleClass="nav-link" action="/front_end/ortak/logout?faces-redirect=true" value="Çıkış" >
+                            <i class="fa fa-fw fa-sign-out"></i>
+                        </h:commandLink>
+
+                    </li>
+
+                </ul></h:form>
+        </div>
+
+    </nav>
+
+
+
+</ui:composition>
+

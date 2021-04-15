@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>KURUM</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="kurum-table">
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{kurumCont.kurumList}" var="kurum">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                    #{kurum.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">KURUM ADI</f:facet>
+                                <h:commandLink action="#{kurumCont.guncelleForm(kurum)}" value="#{kurum.kurum_adi}">
+                                    <f:ajax execute="@this" render="kurum-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">ADRES</f:facet>
+                                    #{kurum.kurum_adresi}
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form id="kurum-form">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <h:inputHidden value="#{kurumCont.kurum.id}"/> 
+                                <label for="inputName">Kurum Adı*</label>
+                                <h:inputText styleClass="form-control" value="#{kurumCont.kurum.kurum_adi}" validator="#{validator.validateAdSoyad}"/>
+                                <label for="inputKurumAdres">Kurum adres</label>
+                                <h:inputText styleClass="form-control" value="#{kurumCont.kurum.kurum_adresi}"/>
+                                * Zorunlu Alan
+                            </div>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <h:commandButton rendered="#{kurumCont.kurum.id != 0}" styleClass="btn btn-info" value="Guncelle"  action="#{kurumCont.guncelle()}">                       
+                                        <f:ajax execute="kurum-form" render="kurum-form kurum-table"/>
+                                    </h:commandButton>    
+                                    <h:commandButton rendered="#{kurumCont.kurum.id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{kurumCont.kaydet()}">
+                                        <f:ajax execute="kurum-form" render="kurum-form kurum-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{kurumCont.kurum.id !=0}" styleClass="btn btn-primary" value="Sil" action="#{kurumCont.sil()}">
+                                        <f:ajax execute="kurum-form" render="kurum-form kurum-table"/>
+                                    </h:commandButton>
+
+                                    <h:commandButton rendered="#{kurumCont.kurum.id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{kurumCont.formTemizle()}">
+                                        <f:ajax execute="@this" render="kurum-form kurum-table"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

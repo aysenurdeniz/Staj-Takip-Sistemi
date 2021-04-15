@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="/back_end/template/admin_layout.xhtml">
+
+    <ui:define name="admin_icerik">
+
+        <div class="container">
+
+            <br/>
+
+            <ol class="breadcrumb bg-orange">
+
+                <li class="breadcrumb-item">
+                    <h:form> <strong><h:commandLink action="#{sayfaYonlendir.adminPanel('admin')}" value="Anasayfa" /></strong></h:form>
+                </li>
+                <li class="breadcrumb-item active"><strong>Profil Güncelleme</strong></li>
+            </ol>
+
+            <div class="col-md-12">
+                <div class="row">
+
+                    <h:form class="form-control" id="modal_form">
+                             
+                           
+                            <div class="form-control">
+                                <h:messages styleClass="alert alert-danger alert" />
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Id</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.id}" readonly="true"/>    
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Kullanıcı Adı *</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.kullaniciAdi}" validator="#{validator.validateKullaniciAdi}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Şifre</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.sifre}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Adı</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.ad}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Soyadı</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.soyad}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Email *</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.email}" validator="#{validator.validateEmail}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Cep Telefonu</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.cepTelefon}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Firma Adı</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.firmaAd}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Telefon</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.telefon}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Faks</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.faks}"/>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Adres</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText styleClass="form-control form-control-sm" value="#{KullaniciCont.kullanici.adres}"/>    
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm">Yetki Grubu</label>
+                                    <div class="col-sm-10">
+
+                                        <h:selectManyListbox disabled="true" styleClass="custom-select"  value="#{KullaniciCont.kullanici.kullaniciYetkileri}" converter="yetkiConverter">
+                                            <f:selectItems value="#{KullaniciCont.yetkiList}" var="yetki" itemValue="#{yetki}" itemLabel="#{yetki.yetkiAdi}"/>
+                                        </h:selectManyListbox>
+                                    </div>
+                                </div>
+                             
+                            </div>
+                            <div class="modal-footer">
+
+                                <h:commandButton  styleClass="btn btn-success" action="#{KullaniciCont.profilKaydet}" value="Kaydet">
+                                    <f:ajax execute="modal_form" render="modal_form"/>
+                                </h:commandButton>
+
+
+                            </div>
+                        </h:form>
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Mesaj</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Kaydetme İşlemi Başarılı !!!</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </ui:define>
+</ui:composition>
+
+

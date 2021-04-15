@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>KULLANICI</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="kullanici-table">
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{KullaniciCont.kullaniciList}" var="kullanici">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                    #{kullanici.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">AD SOYAD</f:facet>
+                                <h:commandLink action="#{KullaniciCont.guncelleForm(kullanici)}" value="#{kullanici.ad_soyad}" >
+                                    <f:ajax  execute="@this" render="kullanici-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">KULLANICI ADI</f:facet>
+                                    #{kullanici.kullanici_adi}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">KULLANICI MAİL</f:facet>
+                                    #{kullanici.kullanici_mail}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">KULLANICI CEP</f:facet>
+                                    #{kullanici.kullanici_cep}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">KULLANICI ŞİFRE</f:facet>
+                                    #{kullanici.kullanici_sifresi}
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form id="kullanici-form">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <h:inputHidden value="#{KullaniciCont.kullanici.id}"/> 
+                                <label name="inputAdSoyad">Ad Soyad</label>
+                                <h:inputText styleClass="form-control" value="#{KullaniciCont.kullanici.ad_soyad}"/>
+                                <label for="inputKullaniciAdi">Kullanıcı Adı</label>
+                                <h:inputText styleClass="form-control" value="#{KullaniciCont.kullanici.kullanici_adi}"/>
+                                <label for="inputKullaniciSifresi">Kullanıcı Sifresi</label>
+                                <h:inputText styleClass="form-control" value="#{KullaniciCont.kullanici.kullanici_sifresi}"/>
+                                <label for="inputKullaniciMail">Kullanıcı Mail</label>
+                                <h:inputText styleClass="form-control" value="#{KullaniciCont.kullanici.kullanici_mail}"/>
+                                <label for="inputKullaniciCep">Kullanıcı Cep</label>
+                                <h:inputText styleClass="form-control" value="#{KullaniciCont.kullanici.kullanici_cep}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <h:commandButton rendered="#{KullaniciCont.kullanici.id != 0}" styleClass="btn btn-info" value="Guncelle"  action="#{KullaniciCont.guncelle()}">                       
+                                        <f:ajax execute="kullanici-form" render="kullanici-form kullanici-table"/>
+                                    </h:commandButton>    
+                                    <h:commandButton rendered="#{KullaniciCont.kullanici.id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{KullaniciCont.kaydet()}">
+                                        <f:ajax execute="kullanici-form" render="kullanici-form kullanici-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{KullaniciCont.kullanici.id !=0}" styleClass="btn btn-primary" value="Sil" action="#{KullaniciCont.sil()}">
+                                        <f:ajax execute="kullanici-form" render="kullanici-form kullanici-table"/>
+                                    </h:commandButton>
+
+                                    <h:commandButton rendered="#{KullaniciCont.kullanici.id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{KullaniciCont.formTemizle()}">
+                                        <f:ajax execute="@this" render="kullanici-form kullanici-table"/>
+                                    </h:commandButton>
+                                </div>
+                            </div> 
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

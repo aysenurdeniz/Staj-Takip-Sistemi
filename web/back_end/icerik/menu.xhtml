@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+
+                template="/back_end/template/admin_layout.xhtml">
+    <ui:define name="admin_icerik">
+        <div class="container">
+
+            <br/>
+            <ol class="breadcrumb bg-dark">
+
+                <li class="breadcrumb-item">      
+                    <h:form> <strong><h:commandLink action="#{sayfaYonlendir.adminPanel('admin')}" value="Anasayfa" /></strong></h:form>
+                </li>
+                <li class="breadcrumb-item active">Menü</li>
+            </ol>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h:form id="form_table">
+                        <h:dataTable styleClass="table table-responsive-md" value="#{Menu.menuList}" var="menuList">
+                            <h:column><f:facet name="header">ID</f:facet>#{menuList.id}</h:column>
+                            <h:column><f:facet name="header">MENÜ ADI</f:facet>
+                                <h:commandLink action="#{Menu.guncelleForm(menuList)}" value="#{menuList.adi}">
+                                    <f:ajax execute="@this" render="form_icerik form_Sil_Modal"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column><f:facet name="header">MENÜ DURUMU</f:facet>#{menuList.menuDurum==true? 'Aktif':'Pasif'}</h:column>
+                            <h:column><f:facet name="header">KULLANICI</f:facet>#{menuList.kullanici}</h:column>
+                            <h:column><f:facet name="header">KAYIT TARİHİ</f:facet>#{menuList.kayitTarih}</h:column>
+                        </h:dataTable>
+
+                         <f:ajax execute="@this" render="form_table">
+                               <ui:include src="/back_end/icerik/menusayfalama.xhtml" />
+                               <p class="text-center">#{Menu.page} of #{Menu.sayfaSayisi()}</p>
+                        </f:ajax>
+                        
+                    </h:form> 
+                </div>
+
+                <div class="col-md-4" >
+                    <h:form id="form_icerik">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Ara</span>
+                            </div>
+                            <h:inputText styleClass="form-control bg-info text-white" id="txtAra" value="#{Menu.bul}" >
+                                <f:ajax event="keyup" execute="txtAra" render="form_table"></f:ajax>
+                            </h:inputText>   
+
+                            <div class="input-group-append">
+                                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">İşlemler</button>
+                                <div class="dropdown-menu">
+                                    <h:commandLink rendered="#{Menu.menu.id!=0 and loginController.yetkiKontrol('İçerik_Menü', 'Yaz') }" styleClass="dropdown-item"  action="#{Menu.formTemizle()}" value="Yeni Kayıt">
+                                        <f:ajax execute="@this" render="form_icerik"/>
+                                    </h:commandLink>
+
+                                    <h:commandLink rendered="#{loginController.yetkiKontrol('İçerik_Menü', 'Yaz') }" styleClass="dropdown-item"  action="#{Menu.kaydet}" value="Kaydet">
+                                        <f:ajax execute="form_icerik" render="form_icerik form_table"/>
+                                    </h:commandLink> 
+                                    <h:commandLink rendered="#{Menu.menu.id!=0 and loginController.yetkiKontrol('İçerik_Menü', 'Yaz') }" onclick="$('.modal').modal('show')" styleClass="dropdown-item" value="Sil">
+                                        <f:ajax execute="@this" render="form_modal1"/>
+                                    </h:commandLink>
+
+
+                                    <div role="separator" class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Yazdır</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Id :</label>
+                            <h:inputText styleClass="form-control" value="#{Menu.menu.id}" readonly="true"/>                                     
+                        </div>
+                        <div class="form-group">
+                            <label for="SdurumAdi">Menü Adı :</label>
+                            <h:inputText styleClass="form-control" id="menuAdi" value="#{Menu.menu.adi}"/>                                     
+                        </div>
+                        <div class="form-group">
+
+                            Aktif/Pasif :  <h:selectBooleanCheckbox  value="#{Menu.menu.menuDurum}" />
+
+                        </div>
+                        <div class="form-group">
+                            <label for="kKullanici">Kaydeden Kullanıcı</label>                                    
+                            <h:inputText styleClass="form-control" value="#{Menu.menu.kullanici}" readonly="true"/>                                     
+                        </div>
+
+                        <div class="form-group">
+                            <label for="K_Trh">Kayıt Tarihi</label>                                    
+                            <h:inputText styleClass="form-control" value="#{Menu.menu.kayitTarih}" readonly="true"/>                                     
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>
+            <div class="modal fade" id="form_modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Menü Sil</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <h:form id="form_Sil_Modal">
+                            <div class="modal-body">
+                                <label>Menü adı <strong>#{Menu.menu.adi}</strong>  olan kaydı silmek istiyormunuz?</label>
+                               
+                            </div>
+                            <div class="modal-footer">
+
+
+                                <h:commandButton  class="btn btn-danger" onclick="$('.modal').modal('hide')" action="#{Menu.sil}" value="Sil" >
+                                    <f:ajax execute="form_Sil_Modal" render="form_Sil_Modal form_table"/>
+                                </h:commandButton>
+                                <button name="kapat" type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </ui:define>
+</ui:composition>
+
+

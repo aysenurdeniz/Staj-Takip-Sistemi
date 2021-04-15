@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="/back_end/template/admin_layout.xhtml">
+
+    <ui:define name="admin_icerik">
+
+        <div class="container">
+
+            <br/>
+
+            <ol class="breadcrumb bg-orange">
+
+                <li class="breadcrumb-item">
+                    <h:form> <strong><h:commandLink action="#{sayfaYonlendir.adminPanel('admin')}" value="Anasayfa" /></strong></h:form>
+                </li>
+                <li class="breadcrumb-item active"><strong>Genel Ayarlar</strong></li>
+            </ol>
+
+            <div class="col-md-12">
+                <div class="row">
+
+                    <h:form id="form_genel" class="form-control">
+
+                        <div class="form-group">
+                            <label for="SdurumAdi">Firma Adi :</label>
+                            <h:inputText styleClass="form-control" id="menuAdi" value="#{genelAyarlarController.genelayarlar.firma_Adi}"/>                                     
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kKullanici">Alt Bilgi :</label>                                    
+                            <h:inputText styleClass="form-control" value="#{genelAyarlarController.genelayarlar.alt_Bilgi}"/>                                     
+                        </div>
+                        <div class="form-group">
+
+                            <label >Admin Panel Renk :</label>   
+                            <h:selectOneListbox  styleClass="form-control" value = "#{genelAyarlarController.genelayarlar.admin_Renk}"> 
+                                <f:selectItem itemValue = "#38474a" itemLabel = "Siyah" /> 
+                                <f:selectItem itemValue = "#791410" itemLabel = "Kahve Rengi" /> 
+                                <f:selectItem itemValue = "#387084" itemLabel = "Mavi" /> 
+                                <f:selectItem itemValue = "#3d651c" itemLabel = "Yeşil" /> 
+                                <f:selectItem itemValue = "#472a60" itemLabel = "Mor" /> 
+
+                            </h:selectOneListbox>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label >Site Renk :</label>   
+                            <h:selectOneListbox styleClass="form-control" value = "#{genelAyarlarController.genelayarlar.site_Renk}"> 
+                                <f:selectItem itemValue = "#38474a" itemLabel = "Siyah" /> 
+                                <f:selectItem itemValue = "#791410" itemLabel = "Kahve Rengi" /> 
+                                <f:selectItem itemValue = "#387084" itemLabel = "Mavi" /> 
+                                <f:selectItem itemValue = "#3d651c" itemLabel = "Yeşil" /> 
+                                <f:selectItem itemValue = "#472a60" itemLabel = "Mor" /> 
+
+                            </h:selectOneListbox>
+
+                        </div>
+
+                        <h:commandLink  rendered="#{loginController.yetkiKontrol('Genel_Ayar', 'Yaz')}" onclick="$('.modal').modal('show')"    styleClass="btn btn-success"  action="#{genelAyarlarController.kaydet()}" value="Kaydet">
+                            <f:ajax execute="form_genel" render="form_genel"/>
+                        </h:commandLink>
+
+                    </h:form>
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Mesaj</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Kaydetme İşlemi Başarılı !!!</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </ui:define>
+</ui:composition>
+
+

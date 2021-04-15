@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>KURUM</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="css" name="bootstrap.min.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>      
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="mesaj-table">
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{MesajCont.mesajList}" var="mesaj">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                    #{mesaj.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Ad Soyad</f:facet>
+                                <h:commandLink action="#{MesajCont.guncelleForm(mesaj)}" value="#{mesaj.ad_soyad}">
+                                    <f:ajax execute="@this" render="mesaj-form"/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">EMAIL</f:facet>
+                                    #{mesaj.e_mail}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">CEP NUMARASI</f:facet>
+                                    #{mesaj.cep_numarasi}
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">BASLIK</f:facet>
+                                    #{mesaj.baslik}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">KONU</f:facet>
+                                    #{mesaj.konu}
+                            </h:column>
+                           </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form id="mesaj-form">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <h:inputHidden value="#{MesajCont.mesaj.id}"/> 
+                                <label for="inputName">Ad Soyad</label>
+                                <h:inputText styleClass="form-control" value="#{MesajCont.mesaj.ad_soyad}"/>
+                                <label for="inputMail">Mail</label>
+                                <h:inputText styleClass="form-control" value="#{MesajCont.mesaj.e_mail}"/>
+                                <label for="inputCepNumarasi">Cep Numarasi</label>
+                                <h:inputText styleClass="form-control" value="#{MesajCont.mesaj.cep_numarasi}"/>
+                                <label for="inputBaslik">Baslik</label>
+                                <h:inputText styleClass="form-control" value="#{MesajCont.mesaj.baslik}"/>
+                                <label for="inputKonu">Konu</label>
+                                <h:inputText styleClass="form-control" value="#{MesajCont.mesaj.konu}"/>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <h:commandButton rendered="#{MesajCont.mesaj.id != 0}" styleClass="btn btn-info" value="Guncelle"  action="#{MesajCont.guncelle}">                       
+                                        <f:ajax execute="mesaj-form" render="mesaj-form mesaj-table"/>
+                                    </h:commandButton>    
+                                    <h:commandButton rendered="#{MesajCont.mesaj.id  ==0}" styleClass="btn btn-primary" value="Ekle" action="#{MesajCont.kaydet}">
+                                        <f:ajax execute="mesaj-form" render="mesaj-form mesaj-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{MesajCont.mesaj.id !=0}" styleClass="btn btn-primary" value="Sil" action="#{MesajCont.sil}">
+                                        <f:ajax execute="mesaj-form" render="mesaj-form mesaj-table"/>
+                                    </h:commandButton>
+                                    
+                                    <h:commandButton rendered="#{MesajCont.mesaj.id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{MesajCont.formTemizle}">
+                                        <f:ajax execute="@this" render="mesaj-form mesaj-table"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>SEHIR</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="css" name="bootstrap.min.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+    </h:head>
+    <h:body>   
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h:form id="sehir-table">
+                        <h:dataTable styleClass="table table-striped table-hover" value="#{SehirCont.sehirList}" var="sehir">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                    #{sehir.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">SEHIR ADI</f:facet>
+                                <h:commandLink action="#{SehirCont.guncelleForm(sehir)}" value="#{sehir.sehir_adi}">
+                                    <f:ajax execute="@this" render="sehir-form"/>
+                                </h:commandLink>
+                            </h:column>
+                          </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="col-md-5">
+                    <h:form id="sehir-form">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <h:inputHidden value="#{SehirCont.sehir.id}"/> 
+                                <label for="inputName">SEHIR ADI</label>
+                                <h:inputText styleClass="form-control" value="#{SehirCont.sehir.sehir_adi}"/>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <h:commandButton rendered="#{SehirCont.sehir.id != 0}" styleClass="btn btn-info" value="Guncelle"  action="#{SehirCont.guncelle}">                       
+                                        <f:ajax execute="sehir-form" render="sehir-form sehir-table"/>
+                                    </h:commandButton>    
+                                    <h:commandButton rendered="#{SehirCont.sehir.id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{SehirCont.kaydet}">
+                                        <f:ajax execute="sehir-form" render="sehir-form sehir-table"/>
+                                    </h:commandButton>
+                                    <h:commandButton rendered="#{SehirCont.sehir.id !=0}" styleClass="btn btn-primary" value="Sil" action="#{SehirCont.sil}">
+                                        <f:ajax execute="sehir-form" render="sehir-form sehir-table"/>
+                                    </h:commandButton>
+                                    
+                                    <h:commandButton rendered="#{SehirCont.sehir.id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{SehirCont.formTemizle}">
+                                        <f:ajax execute="@this" render="sehir-form sehir-table"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

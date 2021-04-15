@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/back_end/template/admin_layout.xhtml">
+    <ui:define name="admin_icerik">
+        <div class="container">
+            <br/>
+            <div class="col-md-12">
+                <h:form enctype="multipart/form-data">
+                    <div class="btn-group">
+                        <h:inputFile  value="#{dosya.file}" styleClass="custom-file"/>
+                        <h:commandButton styleClass="btn btn-success" action="#{dosya.upload()}" value="Yükle"/>
+
+                    </div>
+                </h:form>
+                <h:form id="form_table">
+
+                    <br/>
+                    <h:dataTable styleClass="table table-responsive-md" value="#{dosya.dosyalist}" var="list">
+                        <h:column><f:facet name="header">ID</f:facet>#{list.id}                               
+                        </h:column>
+
+                        <h:column><f:facet name="header">DOSYA ADI</f:facet>#{list.dosya_adi}</h:column>
+                        <h:column><f:facet name="header">TİPİ</f:facet>#{list.dosya_tip}</h:column>
+                        <h:column><f:facet name="header">YOLU</f:facet>#{list.dosya_yolu}</h:column>
+
+
+                        <h:column><f:facet name="header">DOSYA</f:facet>
+                            <h:panelGroup layout="block" rendered="#{list.dosya_tip.contains('image')}">
+                                <a href="/SiparisTakip/file/#{list.dosya_adi}"> <h:graphicImage width="200" value="/file/#{list.dosya_adi}" ></h:graphicImage></a>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{list.dosya_tip.contains('application')}">
+                                <a href="/SiparisTakip/file/#{list.dosya_adi}">#{list.dosya_adi}</a>
+                            </h:panelGroup>
+                        </h:column>
+
+                        <h:column><f:facet name="header">İŞLEMLER</f:facet>
+                            <h:commandLink action="#{dosya.kayitSec(list)}" rendered="#{list.id!=0}" onclick="$('.modal').modal('show')" styleClass="btn btn-danger" value="Sil">
+                                <f:ajax execute="@this" render="form_Sil_Modal form_table "/>
+                            </h:commandLink>
+
+                        </h:column>
+                    </h:dataTable>
+                    <f:ajax execute="@this" render="form_table">
+                        <ui:include src="/back_end/ortak/uploadSayfalama.xhtml" />
+                        <p class="text-center">#{dosya.page} of #{dosya.sayfaSayisi()}</p>
+                    </f:ajax>
+                </h:form>
+            </div>
+            <br/>
+
+        </div>
+        <div class="modal fade" id="form_modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">UYARI !!!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form id="form_Sil_Modal">
+                        <div class="modal-body">
+                            <label>Dosya adı <strong>#{dosya.dosya.dosya_adi}</strong>  olan kaydı silmek istiyormunuz?</label>
+
+                        </div>
+                        <div class="modal-footer">
+
+
+                            <h:commandButton  class="btn btn-danger" onclick="$('.modal').modal('hide')" action="#{dosya.sil}" value="Sil" >
+                                <f:ajax execute="form_Sil_Modal" render="form_Sil_Modal form_table"/>
+                            </h:commandButton>
+                            <button name="kapat" type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
